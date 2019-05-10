@@ -6,7 +6,7 @@
 
     //Procedimientos definidos.
 
-    double realAverage(double sumR, double n);
-    double imaginaryAverage(double sumI, double n);
-    double potency(double sumR, double sumI);
+    float realAverage(float sumR, float n);
+    float imaginaryAverage(float sumI, float n);
+    float potency(float sumR, float sumI);
 #endif

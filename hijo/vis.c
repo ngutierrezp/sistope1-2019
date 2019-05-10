@@ -30,12 +30,13 @@ int main(int argc, char *argv[]){
    
     // Se lee la primera informaciíon del Pipe.
     read(STDIN_FILENO,inBuffer,100);
-
+    fprintf(stderr,"Soy el proceso : %i y recibo los siguientes datos : %s",getpid(),inBuffer);
     // Mientras lo enviado por el padre no sea el identificador "FIN"
     while (strcmp(inBuffer,"FIN") != 0)
     {
+        
         int count = 0;
-        ptr = strtok(text,",");
+        ptr = strtok(inBuffer,",");
 
         while(ptr != NULL){
             list[count] = atof(ptr);
@@ -61,10 +62,15 @@ int main(int argc, char *argv[]){
     // Cada vez que llega información , se añade un termino a la sumatoria de la propiedad pot.
 
     // Se crea nuevo buffer para enviarle la información al padre.
+    fprintf(stderr,"Soy el proceso : %i y mi Promedio Real : %f\n",getpid(),realA);
+    fprintf(stderr,"Soy el proceso : %i y mi Promedio Imaginario : %f\n",getpid(),imaginaryA);
+    fprintf(stderr,"Soy el proceso : %i y mi Potencia : %f\n",getpid(),pot);
+    fprintf(stderr,"Soy el proceso : %i y mi Sumatoria Ruido : %f\n",getpid(),sumW);
     sprintf(outBuffer,"%f,%f,%f,%f",realA,imaginaryA,pot,sumW);
 
     // Se envia la información al padre.
-    write(STDOUT,list[5],sizeof(list[5]))
+    fprintf(stderr,"Soy el proceso : %i y envio los siguientes datos : %s",getpid(),outBuffer);
+    write(STDOUT_FILENO,outBuffer,sizeof(list[5]));
     
     return 0;
 }
