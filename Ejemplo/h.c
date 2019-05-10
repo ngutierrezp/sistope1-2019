@@ -10,6 +10,7 @@
 int main(){
     char buffer[100];
     read(STDIN_FILENO,buffer,100);
+    printf("%s\n",buffer);
     write(STDOUT_FILENO, "hola",4);
     return 0;
 }
