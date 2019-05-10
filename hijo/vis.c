@@ -20,35 +20,51 @@ int main(int argc, char *argv[]){
     // Estas serán las variables donde se guardarán el resultado de cada propiedad.
     float realA;
     float imaginaryA;
-    float pot;
-
-
-    //////////////////////////////////////////////////////////
-    // AQUI VA EL WHILE (STRCMP(PALABRA_ENTRADA,"FIN") != 0)
-    char buffer[100];
+    float pot = 0;
+    
+    // Estas serán variables auxiliares para la ejecución del programa.
+    char inBuffer[100];
+    char outBuffer[100];
+    int list[3];
+    char* ptr;
    
-    /*read(STDIN_FILENO,buffer,100);
-    while (strcmp(buffer,"FIN") != 0)
+    // Se lee la primera informaciíon del Pipe.
+    read(STDIN_FILENO,inBuffer,100);
+
+    // Mientras lo enviado por el padre no sea el identificador "FIN"
+    while (strcmp(inBuffer,"FIN") != 0)
     {
-        
+        int count = 0;
+        ptr = strtok(text,",");
+
+        while(ptr != NULL){
+            list[count] = atof(ptr);
+            count++;
+            ptr = strtok(NULL,",");
+        } 
+
+        // Se acumulan en los contadores las sumatorias de la parte real, imaginaria y el ruido.
+        sumR += list[0];
+        sumI += list[1];
+        sumW += list[2];
+        pot += potency(list[0],list[1]);
+        n += 1;
+
+        // Se continua leyendo información del Pipe.
+        read(STDIN_FILENO,inBuffer,100);
     }
-    */
-    printf("hola soy el archivo hijo \n");
-    // read(STRDIN,list[5],sizeof(list[5]))
-    // sumR += list[3];
-    // sumI += list[4];
-    // sumW += list[5];
-    // n += 1;
-    //////////////////////////////////////////////////////////
-    // CUANDO TERMINA EL WHILE, SE LLAMAN A LOS PROCEDIMIENTOS.
-    // realA = realAverage(sumR,n);            // Donde n el el numero de visibilidades del disco
-    // imaginaryA = imaginaryAverage(sumI,n);  // Donde n el el numero de visibilidades del disco
-    // pot = potency(sumR,sumI);               
-    // EN EL CASO DE sumW, no hay procedimiento por que la propiedad que lo utiliza es una simple sumatoria.
-    //////////////////////////////////////////////////////////
-    // Crear nueva list para poder decirle al padre que se termino la ejecución del hijo y entregarle los resultados.
-    // write(STDOUT,list[5],sizeof(list[5]))
-    //////////////////////////////////////////////////////////
+    
+    // Cuando se termina el while, se procede a calcular las propiedades.
+    realA = realAverage(sumR,n);            // Donde n el el numero de visibilidades del disco
+    imaginaryA = imaginaryAverage(sumI,n);  // Donde n el el numero de visibilidades del disco              
+    // En el caso de sumW no se calcula ningún procedimiendo adicional ya que es la sumatoria del ruido.
+    // Cada vez que llega información , se añade un termino a la sumatoria de la propiedad pot.
+
+    // Se crea nuevo buffer para enviarle la información al padre.
+    sprintf(outBuffer,"%f,%f,%f,%f",realA,imaginaryA,pot,sumW);
+
+    // Se envia la información al padre.
+    write(STDOUT,list[5],sizeof(list[5]))
     
     return 0;
 }

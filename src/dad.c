@@ -14,7 +14,7 @@ float** getVisibility(int* listDisk, int countDisk, float** data, int lines)
     float** results = (float**)malloc(sizeof(float*)*countDisk);
     for (int i = 0; i < countDisk; i++)
     {
-        results[i] = (float*)malloc(sizeof(float)*3);
+        results[i] = (float*)malloc(sizeof(float)*4);
     }
     
     int padre = getpid();
@@ -54,7 +54,7 @@ float** getVisibility(int* listDisk, int countDisk, float** data, int lines)
             close(listPipesIn[i][1]); // Escritura -> Padre->Hijo
             close(listPipesOut[i][0]); // Lectura Hijo -> Padre (padre lee hijo)
             
-            printf("soy el hijo : %i (%i), y tengo el disco [%i]\n",i+1,child,listDisk[i]);
+            //printf("soy el hijo : %i (%i), y tengo el disco [%i]\n",i+1,child,listDisk[i]);
             break;
         }
     }
@@ -124,7 +124,7 @@ float** getVisibility(int* listDisk, int countDisk, float** data, int lines)
                 ptr = strtok(NULL,",");
             }
 
-            if (count != 2)
+            if (count != 3)
             {
                 exit(EXIT_FAILURE);
             }
