@@ -58,7 +58,7 @@ all: clean main hijo
 
 main: $(OBJECTS)
 	@echo "Generando ejecutable ..."
-	($(CC) $^ -lm $(DEBUG_MODE) -o $(EXE_NAME) && echo "$(OK_COLOR)[OK]$(NO_COLOR)") \
+	($(CC) $^ -g -lm $(DEBUG_MODE) -o $(EXE_NAME) && echo "$(OK_COLOR)[OK]$(NO_COLOR)") \
 		||  (echo "$(ERROR_COLOR)[ERROR]$(NO_COLOR)" && exit 1; )
 	@echo "\n"
 	
@@ -80,7 +80,7 @@ main-debug: $(OBJECTS)
 
 $(OBJ)%.o: $(SRC)%.c
 	@echo "Generando archivos object de $@ ...."
-	($(CC) $(DEBUG_MODE) -lm -I$(SRC) -c $< -o $@ && echo "$(OK_COLOR)[OK]$(NO_COLOR)") \
+	($(CC) $(DEBUG_MODE) -g -lm -I$(SRC) -c $< -o $@ && echo "$(OK_COLOR)[OK]$(NO_COLOR)") \
 		||  (echo "$(ERROR_COLOR)[ERROR]$(NO_COLOR)" && exit 1; )
 
 hijo: main-child

@@ -23,23 +23,25 @@ int main(int argc, char *argv[]){
     float pot = 0;
     
     // Estas serán variables auxiliares para la ejecución del programa.
-    char inBuffer[100];
-    char outBuffer[100];
-    int list[3];
+    char inBuffer[50];
+    char outBuffer[50];
+    float list[3];
     char* ptr;
    
     // Se lee la primera informaciíon del Pipe.
-    read(STDIN_FILENO,inBuffer,100);
-    fprintf(stderr,"Soy el proceso : %i y recibo los siguientes datos : %s",getpid(),inBuffer);
+    read(STDIN_FILENO,inBuffer,sizeof(inBuffer));
+    fprintf(stderr,"Soy el proceso : %i y recibo los siguientes datos : %s\n",getpid(),inBuffer);
     // Mientras lo enviado por el padre no sea el identificador "FIN"
     while (strcmp(inBuffer,"FIN") != 0)
     {
-        
         int count = 0;
+
         ptr = strtok(inBuffer,",");
 
         while(ptr != NULL){
+            fprintf(stderr,"strtok : %s\n",ptr);
             list[count] = atof(ptr);
+            fprintf(stderr,"Soy el hijo: %i, recibo en la posicion :%i y vale : %f\n",getpid(),count,atof(ptr));
             count++;
             ptr = strtok(NULL,",");
         } 
@@ -52,7 +54,8 @@ int main(int argc, char *argv[]){
         n += 1;
 
         // Se continua leyendo información del Pipe.
-        read(STDIN_FILENO,inBuffer,100);
+        
+        read(STDIN_FILENO,inBuffer,sizeof(inBuffer));
     }
     
     // Cuando se termina el while, se procede a calcular las propiedades.
@@ -69,7 +72,7 @@ int main(int argc, char *argv[]){
     sprintf(outBuffer,"%f,%f,%f,%f",realA,imaginaryA,pot,sumW);
 
     // Se envia la información al padre.
-    fprintf(stderr,"Soy el proceso : %i y envio los siguientes datos : %s",getpid(),outBuffer);
+    fprintf(stderr,"Soy el proceso : %i y envio los siguientes datos : %s\n",getpid(),outBuffer);
     write(STDOUT_FILENO,outBuffer,sizeof(list[5]));
     
     return 0;
