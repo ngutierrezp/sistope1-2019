@@ -47,7 +47,7 @@ float** getVisibility(int* listDisk, int countDisk, float** data, int lines)
         {
             // Soy el hijo
             int child = getpid();
-            fprintf(stderr,"soy el hijo : %i, y tengo el disco %i\n",child,i);
+            //fprintf(stderr,"soy el hijo : %i, y tengo el disco %i\n",child,i);
             dup2(listPipesIn[i][0],STDIN_FILENO); // Lectura Padre-> Hijo (hijo lee padre)
             dup2(listPipesOut[i][1],STDOUT_FILENO); // Escritura Hijo -> Padre
             
@@ -81,7 +81,7 @@ float** getVisibility(int* listDisk, int countDisk, float** data, int lines)
                 {
                     
                     sprintf(text,"%f,%f,%f",data[i][2],data[i][3],data[i][4]);
-                  //  fprintf(stderr,"Proceso Padre antes de WRITE enviando al disco [%i : %f]: %s\n",j,dist,text);
+                    // fprintf(stderr,"Proceso Padre antes de WRITE enviando al disco [%i : %f]: %s\n",j,dist,text);
                     write(listPipesIn[j][1],text,MAX_CHAR);
                     //fprintf(stderr,"1 Proceso Padre despues de WRITE\n");
                                 
@@ -90,7 +90,7 @@ float** getVisibility(int* listDisk, int countDisk, float** data, int lines)
 
             if(dist >= listDisk[countDisk-1]){
                 sprintf(text,"%f,%f,%f",data[i][2],data[i][3],data[i][4]);
-               // fprintf(stderr,"2 Proceso Padre antes de WRITE enviando: %s\n",text);
+                // fprintf(stderr,"2 Proceso Padre antes de WRITE enviando: %s\n",text);
                 write(listPipesIn[countDisk-1][1],text,MAX_CHAR);
                 
                                     

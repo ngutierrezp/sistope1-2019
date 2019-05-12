@@ -18,11 +18,12 @@ int main(int argc, char  *argv[])
     #define DEBUG
     #ifdef DEBUG
         printf("Imprimiendo...\n");
-        printf("entrada: %s\n",entrada);
-        printf("salida: %s\n",salida);
-        printf("discos: %i\n",*discos);
-        printf("ancho : %i\n",*ancho);
-        printf("bandera : %i\n",*bandera);
+        printf("Entrada: %s\n",entrada);
+        printf("Salida: %s\n",salida);
+        printf("Discos: %i\n",*discos);
+        printf("Ancho : %i\n",*ancho);
+        printf("Bandera : %i\n",*bandera);
+        printf("\n");
     #endif
 
     int lines = countLines(entrada);
@@ -43,7 +44,7 @@ int main(int argc, char  *argv[])
     float** visibi = getVisibility(disks,*discos,visibilities,lines);
 
     writeFile(salida,visibi,*discos);
-    printf("escritura correcta\n");
+    printf("\nEscritura Correcta.\n");
 
     // liberación de memoria
     for (int i = 0; i < lines; i++)

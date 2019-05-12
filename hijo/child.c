@@ -21,7 +21,7 @@ float realAverage(float sumR, float n){
 // Salida: float que contiene el resultado de la media imaginaria.
 float imaginaryAverage(float sumI, float n){
 
-    int cte = 1/n;
+    float cte = 1/n;
     return cte * sumI;
 
 }

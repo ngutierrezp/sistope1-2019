@@ -13,14 +13,14 @@
 int main(int argc, char *argv[]){
 
     // Estas serán las variables donde se acumularán los distintos datos.
-    float sumR;
-    float sumI;
-    float sumW;
-    float n;           
+    float sumR = 0;
+    float sumI = 0;
+    float sumW = 0;
+    float n = 0;        
 
     // Estas serán las variables donde se guardarán el resultado de cada propiedad.
-    float realA;
-    float imaginaryA;
+    float realA = 0;
+    float imaginaryA = 0;
     float pot = 0;
     
     // Estas serán variables auxiliares para la ejecución del programa.
@@ -35,23 +35,38 @@ int main(int argc, char *argv[]){
    
     // Se lee la primera informaciíon del Pipe.
     read(STDIN_FILENO,inBuffer,sizeof(inBuffer));
+
+    // Si lo primero ingresado en la tuberia es vacio.
+    if(strcmp(inBuffer,"FIN") == 0){
+
+        sprintf(outBuffer,"%f,%f,%f,%f",realA,imaginaryA,pot,sumW);
+
+        // Se envia la información al padre.
+        // fprintf(stderr,"Soy el proceso : %i y envio los siguientes datos : %s\n",getpid(),outBuffer);
+        write(STDOUT_FILENO,outBuffer,MAX_CHAR);
+    
+    return 0;
+
+    }
     
     // Mientras lo enviado por el padre no sea el identificador "FIN"
     
     while (strcmp(inBuffer,"FIN") != 0)
     {
-        //fprintf(stderr,"Soy el proceso : %i y recibo los siguientes datos : %s\n",getpid(),inBuffer);
+        // fprintf(stderr,"Soy el proceso : %i y recibo los siguientes datos : %s\n",getpid(),inBuffer);
         int count = 0;
 
-        ptr = strtok(inBuffer,",");
+        if(inBuffer != NULL){
+            ptr = strtok(inBuffer,",");
 
-        while(ptr != NULL){
-           // fprintf(stderr,"strtok : %s\n",ptr);
-            list[count] = atof(ptr);
-           // fprintf(stderr,"Soy el hijo: %i, recibo en la posicion :%i y vale : %f\n",getpid(),count,atof(ptr));
-            count++;
-            ptr = strtok(NULL,",");
-        } 
+            while(ptr != NULL){
+                // fprintf(stderr,"strtok : %s\n",ptr);
+                list[count] = atof(ptr);
+                // fprintf(stderr,"Soy el hijo: %i, recibo en la posicion :%i y vale : %f\n",getpid(),count,atof(ptr));
+                count++;
+                ptr = strtok(NULL,",");
+            } 
+        }
 
         // Se acumulan en los contadores las sumatorias de la parte real, imaginaria y el ruido.
         sumR += list[0];
@@ -76,10 +91,11 @@ int main(int argc, char *argv[]){
     //fprintf(stderr,"Soy el proceso : %i y mi Promedio Imaginario : %f\n",getpid(),imaginaryA);
     //fprintf(stderr,"Soy el proceso : %i y mi Potencia : %f\n",getpid(),pot);
     //fprintf(stderr,"Soy el proceso : %i y mi Sumatoria Ruido : %f\n",getpid(),sumW);
+
     sprintf(outBuffer,"%f,%f,%f,%f",realA,imaginaryA,pot,sumW);
 
     // Se envia la información al padre.
-    fprintf(stderr,"Soy el proceso : %i y envio los siguientes datos : %s\n",getpid(),outBuffer);
+    // fprintf(stderr,"Soy el proceso : %i y envio los siguientes datos : %s\n",getpid(),outBuffer);
     write(STDOUT_FILENO,outBuffer,MAX_CHAR);
     
     return 0;
