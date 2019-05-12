@@ -162,6 +162,21 @@ void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, char* in_file, ch
     (*n_whgt) = whtg;
 	
     //hacer comprobaciones si los datos fueron entregados bien
-	
+}
 
+void writeFile(char* fileName, float** data, int disk){
+
+    FILE* _file = fopen(fileName ,"w");
+
+    for (int i = 0; i < disk; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+           fprintf(_file,"%f " ,data[i][j]);
+        }
+        fprintf(_file,"\n");
+        
+        
+    }
+    fclose(_file);
 }

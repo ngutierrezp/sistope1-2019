@@ -5,6 +5,7 @@
 #include<string.h> 
 #include<sys/wait.h>
 #include "../include/child.h"
+#include "../include/defines.h"
 
 //Procedimiento Main que da el inicio al programa.
 //Entrada: Vacia.
@@ -30,18 +31,20 @@ int main(int argc, char *argv[]){
    
     // Se lee la primera informaciíon del Pipe.
     read(STDIN_FILENO,inBuffer,sizeof(inBuffer));
-    fprintf(stderr,"Soy el proceso : %i y recibo los siguientes datos : %s\n",getpid(),inBuffer);
+    
     // Mientras lo enviado por el padre no sea el identificador "FIN"
+    
     while (strcmp(inBuffer,"FIN") != 0)
     {
+        //fprintf(stderr,"Soy el proceso : %i y recibo los siguientes datos : %s\n",getpid(),inBuffer);
         int count = 0;
 
         ptr = strtok(inBuffer,",");
 
         while(ptr != NULL){
-            fprintf(stderr,"strtok : %s\n",ptr);
+           // fprintf(stderr,"strtok : %s\n",ptr);
             list[count] = atof(ptr);
-            fprintf(stderr,"Soy el hijo: %i, recibo en la posicion :%i y vale : %f\n",getpid(),count,atof(ptr));
+           // fprintf(stderr,"Soy el hijo: %i, recibo en la posicion :%i y vale : %f\n",getpid(),count,atof(ptr));
             count++;
             ptr = strtok(NULL,",");
         } 
@@ -52,10 +55,10 @@ int main(int argc, char *argv[]){
         sumW += list[2];
         pot += potency(list[0],list[1]);
         n += 1;
-
         // Se continua leyendo información del Pipe.
         
         read(STDIN_FILENO,inBuffer,sizeof(inBuffer));
+        
     }
     
     // Cuando se termina el while, se procede a calcular las propiedades.
@@ -65,15 +68,15 @@ int main(int argc, char *argv[]){
     // Cada vez que llega información , se añade un termino a la sumatoria de la propiedad pot.
 
     // Se crea nuevo buffer para enviarle la información al padre.
-    fprintf(stderr,"Soy el proceso : %i y mi Promedio Real : %f\n",getpid(),realA);
-    fprintf(stderr,"Soy el proceso : %i y mi Promedio Imaginario : %f\n",getpid(),imaginaryA);
-    fprintf(stderr,"Soy el proceso : %i y mi Potencia : %f\n",getpid(),pot);
-    fprintf(stderr,"Soy el proceso : %i y mi Sumatoria Ruido : %f\n",getpid(),sumW);
+    //fprintf(stderr,"Soy el proceso : %i y mi Promedio Real : %f\n",getpid(),realA);
+    //fprintf(stderr,"Soy el proceso : %i y mi Promedio Imaginario : %f\n",getpid(),imaginaryA);
+    //fprintf(stderr,"Soy el proceso : %i y mi Potencia : %f\n",getpid(),pot);
+    //fprintf(stderr,"Soy el proceso : %i y mi Sumatoria Ruido : %f\n",getpid(),sumW);
     sprintf(outBuffer,"%f,%f,%f,%f",realA,imaginaryA,pot,sumW);
 
     // Se envia la información al padre.
     fprintf(stderr,"Soy el proceso : %i y envio los siguientes datos : %s\n",getpid(),outBuffer);
-    write(STDOUT_FILENO,outBuffer,sizeof(list[5]));
+    write(STDOUT_FILENO,outBuffer,MAX_CHAR);
     
     return 0;
 }

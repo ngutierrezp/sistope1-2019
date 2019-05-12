@@ -40,7 +40,10 @@ int main(int argc, char  *argv[])
         count = count + *ancho;    
     }
 
-    getVisibility(disks,*discos,visibilities,lines);
+    float** visibi = getVisibility(disks,*discos,visibilities,lines);
+
+    writeFile(salida,visibi,discos);
+    printf("escritura correcta\n");
 
     // liberación de memoria
     for (int i = 0; i < lines; i++)
