@@ -170,13 +170,11 @@ void writeFile(char* fileName, float** data, int disk){
 
     for (int i = 0; i < disk; i++)
     {
-        for (int j = 0; j < 4; j++)
-        {
-           fprintf(_file,"%f " ,data[i][j]);
-        }
-        fprintf(_file,"\n");
-        
-        
+        fprintf(_file,"Disco : %i\n",i+1);
+        fprintf(_file,"Media Real: %f\n",data[i][0]);
+        fprintf(_file,"Media imaginaria: %f\n",data[i][1]);
+        fprintf(_file,"Potencia: %f\n",data[i][2]);
+        fprintf(_file,"Ruido total: %f\n",data[i][3]);
     }
     fclose(_file);
 }

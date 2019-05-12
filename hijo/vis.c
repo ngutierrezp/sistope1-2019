@@ -27,6 +27,10 @@ int main(int argc, char *argv[]){
     char inBuffer[50];
     char outBuffer[50];
     float list[3];
+
+    list[0]=0;
+    list[1]=0;
+    list[2]=0;
     char* ptr;
    
     // Se lee la primera informaciíon del Pipe.

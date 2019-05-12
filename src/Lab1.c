@@ -42,7 +42,7 @@ int main(int argc, char  *argv[])
 
     float** visibi = getVisibility(disks,*discos,visibilities,lines);
 
-    writeFile(salida,visibi,discos);
+    writeFile(salida,visibi,*discos);
     printf("escritura correcta\n");
 
     // liberación de memoria

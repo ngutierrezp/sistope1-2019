@@ -110,21 +110,24 @@ float** getVisibility(int* listDisk, int countDisk, float** data, int lines)
         // Espero a que mis hijos me respondan 
         read(listPipesOut[i][0],text,MAX_CHAR);
 
-        fprintf(stderr,"Soy el padre y estoy recibiendo %s\n",text);
-           
-        int count = 0;
-        ptr = strtok(text,",");
+        if(text != NULL && strcmp(text,"") != 0){
 
-        while(ptr != NULL){
-            results[i][count] = atof(ptr);
-            count++;
-            ptr = strtok(NULL,",");
-        }
             
+            fprintf(stderr,"Soy el padre y estoy recibiendo %s\n",text);
+            
+            float real_avarage;
+            float imag_avarage;
+            float potency;
+            float summatory;
 
-        
-        //wait(&status);
-        
+            sscanf(text,"%f,%f,%f,%f",&real_avarage,&imag_avarage,&potency,&summatory);
+            
+            results[i][0]= real_avarage;
+            results[i][1]= imag_avarage;
+            results[i][2]= potency;
+            results[i][3]= summatory;
+
+        }
     }
     return results;
     
