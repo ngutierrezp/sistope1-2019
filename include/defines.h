@@ -2,7 +2,7 @@
     #define DEFINES_H 
 
     #define AUX_CHAR 40
-    #define MAX_CHAR 50
+    #define MAX_CHAR 100
     #define TRUE 1
     #define FALSE 0
     #define ACTIVE 100

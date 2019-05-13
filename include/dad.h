@@ -10,11 +10,15 @@
     En caso de ser el padre, este (Mediante WRITE) le envia la información necesaria a cada hijo para que sea procesada.
     Luego de enviar toda la información, el padre esperara a cada hijo y cuando un hijo determinado termine este leera el resultado entregado por el hijo.
     Una vez se lee el resultado enviado por el hijo el padre procede a guardarlo en la matriz de resultado.
-
-    ENTRADA: int* listDisk que es una lista que contiene los distintos discos, int countDisk que contiene la cantidad de discos, float** data que contiene la información leida del archivo de entrada y int lines que contiene la cantidad de lineas presentes en el archivo de entrada.
-
+    
+    ENTRADA: int* listDisk que es una lista que contiene los distintos discos,
+        int countDisk que contiene la cantidad de discos, 
+        float** data que contiene la información leida del archivo de entrada 
+        int lines que contiene la cantidad de lineas presentes en el archivo de entrada.
+        int* bandera es la flag para activar el modo DEBUG
+        
     SALIDA: float** que representa la matriz de resultados luego de que cada hijo procesa la información.
     */
-    float** getVisibility(int* listDisk, int countDisk, float** data, int lines);
+    float** getVisibility(int* listDisk, int countDisk, float** data, int lines,int* bandera);
 
 #endif    

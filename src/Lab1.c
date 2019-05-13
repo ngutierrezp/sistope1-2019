@@ -1,34 +1,37 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "../include/dad.h"
+#include "../include/colors.h"
 #include "../include/defines.h"
 #include "../include/iofuctions.h"
-#include "../include/dad.h"
 
-int main(int argc, char  *argv[])
+int main(int argc, char *argv[])
 
 {
-    int* discos = (int*)malloc(sizeof(int));
-    int* ancho = (int*)malloc(sizeof(int));
-    char* entrada = (char*)malloc(sizeof(char)*MAX_CHAR);
-    char* salida = (char*)malloc(sizeof(char)*MAX_CHAR);
-    int* bandera = (int*)malloc(sizeof(int));
+    float** data_read = NULL;
     float** visibilities = NULL;
+    int* ancho = (int*)malloc(sizeof(int));
+    int* discos = (int*)malloc(sizeof(int));
+    int* bandera = (int*)malloc(sizeof(int));
+    char* salida = (char*)malloc(sizeof(char)*MAX_CHAR);
+    char* entrada = (char*)malloc(sizeof(char)*MAX_CHAR);
 
+    
+
+    *bandera = NOT_ACTIVE;
+
+    //obtencion de argumentos de entrada
+    
     getArgs(argc,argv,discos,ancho,entrada,salida,bandera);
-    #define DEBUG
-    #ifdef DEBUG
-        printf("Imprimiendo...\n");
-        printf("Entrada: %s\n",entrada);
-        printf("Salida: %s\n",salida);
-        printf("Discos: %i\n",*discos);
-        printf("Ancho : %i\n",*ancho);
-        printf("Bandera : %i\n",*bandera);
-        printf("\n");
-    #endif
 
+    if (*bandera == ACTIVE)
+    {
+        printf(ROJO_T"[FLAG ACTIVATED]"RESET_COLOR"\n");
+    }
+    
     int lines = countLines(entrada);
     
-    visibilities = readFile(entrada,lines);
+    data_read = readFile(entrada,lines);
 
     int disks[(*discos)];
 
@@ -41,29 +44,42 @@ int main(int argc, char  *argv[])
         count = count + *ancho;    
     }
 
-    float** visibi = getVisibility(disks,*discos,visibilities,lines);
+    visibilities = getVisibility(disks,*discos,data_read,lines,bandera);
 
-    writeFile(salida,visibi,*discos);
-    printf("\nEscritura Correcta.\n");
+    writeFile(salida,visibilities,*discos);
 
-    // liberación de memoria
+    printf(VERDE_T"Programa finalizado!!\n"RESET_COLOR);
+
+    //
+    //  ##########################################
+    //      Apartado de liberación de Memoria
+    //  ##########################################
+    //
+
+
+    // Liberando memoria para los datos leidos del archivo de entrada
     for (int i = 0; i < lines; i++)
+    {
+        free(data_read[i]);
+    }
+    free(data_read);
+
+    //Liberando memoria para la data en los discos
+    
+    for (int i = 0; i < *discos; i++)
     {
         free(visibilities[i]);
     }
     free(visibilities);
 
+
+    //Liberacion de memoria para datos de entrada
     free(discos);
     free(ancho);
     free(entrada);
     free(salida);
     free(bandera);
 
-    
-
-    
-   
-    
 
     return 0;
 }

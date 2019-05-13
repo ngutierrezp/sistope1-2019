@@ -1,19 +1,12 @@
 
-
-/*
-    ENTRADA: Nombre del archivo a leer
-    SALIDA: aun no se
-    FUNCION: Lee un archivo 
-*/
-
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include "../include/iofuctions.h"
-#include "../include/defines.h"
 #include "../include/colors.h"
 #include "../include/utility.h"
+#include "../include/defines.h"
+#include "../include/iofuctions.h"
 
 float** readFile(char *file,int lines)
 {
@@ -63,7 +56,7 @@ float** readFile(char *file,int lines)
     return listVisibility;
 }
 
-// Funcion que cuenta las lineas de un archivo 
+
 int countLines(char *file)
 {
     int lines = 1, flag = 0;
@@ -95,15 +88,12 @@ int countLines(char *file)
     }
 
     fclose(_file_pointer);
-#ifdef DEBUG
-    printf("Funcion COUNTLINES: lineas del archivo: %i\n", lines);
-#endif
     return lines;
 }
 
 
 void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, char* in_file, char* out_file, int *flag){
-	int flags, opt;
+	int opt;
 	char *aux3[AUX_CHAR];
 	if(argc < 9){
 		printf(ROJO_T"[ERROR]"RESET_COLOR" Faltan argumentos en la linea de comandos\n");
@@ -130,16 +120,12 @@ void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, char* in_file, ch
 			}
 		   break;
         case 'i': 
-		   
 		   if(optarg==0){
 				printf(AMARILLO_T"[WARN]"RESET_COLOR " la opcion [-i] no puede quedar vacia\n");
 			}
             else {
-                strcpy(in_file,optarg);
-                
+                strcpy(in_file,optarg);   
             }
-            
-            
 		   break;
         case 'o': 
 
@@ -160,8 +146,6 @@ void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, char* in_file, ch
     
 	(*n_disk) = disks;
     (*n_whgt) = whtg;
-	
-    //hacer comprobaciones si los datos fueron entregados bien
 }
 
 void writeFile(char* fileName, float** data, int disk){
