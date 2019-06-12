@@ -72,5 +72,7 @@ int main(int argc, char *argv[])
 
     freeProperties(global_properties);
 
+    free(threads);
+    
     return 0;
 }
