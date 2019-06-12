@@ -1,9 +1,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <pthread.h>
 #include "../include/colors.h"
 #include "../include/defines.h"
 #include "../include/iofunctions.h"
+#include "../include/properties.h"
 
 
 int main(int argc, char *argv[])
@@ -26,7 +28,7 @@ int main(int argc, char *argv[])
 
     if (verify == FALSE)
     {
-        printf(ROJO_T"[ERROR]"RESET_COLOR" El archivo de entrada '"AMARILLO_T"%s"RESET_COLOR" 'no existe.\n",entrada);
+        printf(ROJO_T"[ERROR]"RESET_COLOR" El archivo de entrada '"AMARILLO_T"%s"RESET_COLOR"' no existe.\n",entrada);
     }
     
     

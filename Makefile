@@ -1,6 +1,6 @@
 ##########################################################################
 # Version : 3.2
-# Fecha : 06-05-2019
+# Fecha : 12-06-2019
 # Javier Pérez - Nicolás Gutiérrez
 ##########################################################################
 
@@ -21,9 +21,9 @@
 # --- opciones de ejecución ---
 CLEAN_COMMAND := rm
 COMPILE_COMMAND := gcc
-EXE_NAME := lab1.out
+EXE_NAME := lab2.out
 DEBUG_MODE :=
-EXE_NAME_DEBUG := lab1_debug.out
+EXE_NAME_DEBUG := lab2_debug.out
 EXE_NAME_CHILD := vis.out
 
 # --- Carpetas ---
@@ -53,7 +53,7 @@ OBJECTS := $(patsubst $(SRC)%.c, $(OBJ)%.o, $(SOURCES))
 all: clean main
 	
 	@echo "$(PUR_COLOR)Ejecutable generado!$(NO_COLOR) Nombre: $(OK_COLOR)$(EXE_NAME)$(NO_COLOR) "
-
+	@echo "\n"
 
 main: $(OBJECTS)
 	@echo "Generando ejecutable ..."
@@ -69,7 +69,7 @@ set-debug: all-debug
 
 all-debug: clean main-debug
 	@echo "$(ERROR_COLOR)[DEBUG MODE] $(PUR_COLOR)Ejecutable generado!$(NO_COLOR) Nombre: $(OK_COLOR)$(EXE_NAME_DEBUG)$(NO_COLOR) "
-
+	@echo "\n"
 
 main-debug: $(OBJECTS)
 	@echo "Generando ejecutable ..."
@@ -84,6 +84,7 @@ $(OBJ)%.o: $(SRC)%.c
 	
 clean: 
 	
+	@echo "\n"
 	@echo "Eliminado $(WARN_COLOR).out$(NO_COLOR) antiguo..."
 	@echo >> rm.out
 

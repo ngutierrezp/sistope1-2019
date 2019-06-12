@@ -67,7 +67,6 @@ float** readFile(char *file,int lines)
     return listVisibility;
 }
 
-
 int countLines(char *file)
 {
     int lines = 1, flag = 0;
@@ -102,8 +101,8 @@ int countLines(char *file)
     return lines;
 }
 
-
-void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, int* buf_size, char* in_file, char* out_file, int *flag){
+void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, int* buf_size, char* in_file, char* out_file, int *flag)
+{
     /*
      • -i:  nombre de archivo con visibilidades
      • -o:  nombre de archivo de salida
@@ -229,7 +228,8 @@ void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, int* buf_size, ch
 	}
 }
 
-void writeFile(char* fileName, float** data, int disk){
+void writeFile(char* fileName, float** data, int disk)
+{
 
     FILE* _file = fopen(fileName ,"w");
 
