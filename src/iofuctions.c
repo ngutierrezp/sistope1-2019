@@ -103,20 +103,37 @@ int countLines(char *file)
 }
 
 
-void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, char* in_file, char* out_file, int *flag){
-	int opt;
+void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, int* buf_size, char* in_file, char* out_file, int *flag){
+    /*
+     • -i:  nombre de archivo con visibilidades
+     • -o:  nombre de archivo de salida
+     • -n:  cantidad de discos
+     • -d:  ancho de cada disco
+     • -s:  tamaño del buffer de cada monitor
+     • -b:  bandera o flag 
+     */
+    
+    
+    int opt;
 	char *aux3[AUX_CHAR];
-	if(argc < 9){
-		printf(ROJO_T"[ERROR]"RESET_COLOR" Faltan argumentos en la linea de comandos\n");
-		printf(AMARILLO_T"[USE]"RESET_COLOR" %s -i [nombre archivo entrada] -o [nombre archivo de salida] -d [ancho] -n [numero de discos] [-b]\n", argv[0]);
+	if(argc < 11){
+		printf(ROJO_T"[ERROR]"RESET_COLOR" FALTAN argumentos en la linea de comandos\n");
+		printf(AMARILLO_T"[USE]"RESET_COLOR" %s -i [nombre archivo entrada] -o [nombre archivo de salida] -d [ancho] -n [numero de discos] -s [tamaño del buffer] [-b]\n", argv[0]);
+        exit(FAIL);
+	}
+    if(argc > 12){
+		printf(ROJO_T"[ERROR]"RESET_COLOR" DEMASIADOS argumentos en la linea de comandos\n");
+		printf(AMARILLO_T"[USE]"RESET_COLOR" %s -i [nombre archivo entrada] -o [nombre archivo de salida] -d [ancho] -n [numero de discos] -s [tamaño del buffer] [-b]\n", argv[0]);
         exit(FAIL);
 	}
 	int disks = NOT_ACTIVE;
     int whtg = NOT_ACTIVE;
-	while((opt = getopt(argc, argv, "i:o:d:n:b")) != -1) {
+    int buffer = NOT_ACTIVE;
+
+	while((opt = getopt(argc, argv, "i:o:d:n:s:b")) != -1) {
 	   switch(opt) {
 	   case 'b':
-		   *flag = ACTIVE;
+		   (*flag) = ACTIVE;
 		   break;
 	   case 'n': 
 		   disks = strtol(optarg, aux3, 10);
@@ -124,6 +141,32 @@ void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, char* in_file, ch
 				printf(AMARILLO_T"[WARN]"RESET_COLOR " la opcion [-n] no puede quedar vacia");
                 exit(EXIT_FAILURE);
 			}
+            else if(disks < 0) 
+            {
+                printf(AMARILLO_T"[WARN]"RESET_COLOR " la opcion [-n] no puede tener numeros negativos");
+                exit(EXIT_FAILURE);
+            }
+            else
+            {
+                (*n_disk) = disks;
+            }
+            
+		   break;
+        case 's': 
+		   buffer = strtol(optarg, aux3, 10);
+		   if(optarg!=0 && buffer==0){
+				printf(AMARILLO_T"[WARN]"RESET_COLOR " la opcion [-s] no puede quedar vacia");
+                exit(EXIT_FAILURE);
+			}
+            else if(buffer < 0) 
+            {
+                printf(AMARILLO_T"[WARN]"RESET_COLOR " la opcion [-s] no puede tener numeros negativos");
+                exit(EXIT_FAILURE);
+            }
+            else
+            {
+                (*buf_size) = buffer;
+            }
 		   break;
         case 'd': 
 		   whtg = strtol(optarg, aux3, 10); 
@@ -131,6 +174,15 @@ void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, char* in_file, ch
 				printf(AMARILLO_T"[WARN]"RESET_COLOR " la opcion [-d] no puede quedar vacia\n");
                 exit(EXIT_FAILURE);
 			}
+            else if(whtg < 0) 
+            {
+                printf(AMARILLO_T"[WARN]"RESET_COLOR " la opcion [-d] no puede tener numeros negativos");
+                exit(EXIT_FAILURE);
+            }
+            else
+            {
+                (*n_whgt) = whtg;
+            }
 		   break;
         case 'i': 
 		   if(strcmp(optarg,"-i")==0 || 
@@ -141,12 +193,16 @@ void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, char* in_file, ch
 				printf(AMARILLO_T"[WARN]"RESET_COLOR " la opcion [-i] no puede quedar vacia\n");
                 exit(EXIT_FAILURE);
 			}
+            else if (strcmp(out_file,optarg)==0)
+            {
+                printf(AMARILLO_T"[WARN]"RESET_COLOR " la opcion [-i] no puede tener el mismo nombre que la salida.\n");
+                exit(EXIT_FAILURE);
+            }
             else {
                 strcpy(in_file,optarg);   
             }
 		   break;
         case 'o': 
-
 		   if(strcmp(optarg,"-i")==0 || 
               strcmp(optarg,"-o")==0 || 
               strcmp(optarg,"-d")==0 ||
@@ -155,6 +211,11 @@ void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, char* in_file, ch
 				printf(AMARILLO_T"[WARN]"RESET_COLOR " la opcion [-o] no puede quedar vacia\n");
                 exit(EXIT_FAILURE);
 			}
+            else if (strcmp(in_file,optarg)==0)
+            {
+                printf(AMARILLO_T"[WARN]"RESET_COLOR " la opcion [-o] no puede tener el mismo nombre que la entrada.\n");
+                exit(EXIT_FAILURE);
+            }
             else{
                 strcpy(out_file,optarg);
                 
@@ -166,9 +227,6 @@ void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, char* in_file, ch
 		   exit(EXIT_FAILURE);
 	   }
 	}
-    
-	(*n_disk) = disks;
-    (*n_whgt) = whtg;
 }
 
 void writeFile(char* fileName, float** data, int disk){
