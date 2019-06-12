@@ -57,7 +57,7 @@ all: clean main
 
 main: $(OBJECTS)
 	@echo "Generando ejecutable ..."
-	($(CC) $^ -g -lm $(DEBUG_MODE) -o $(EXE_NAME) && echo "$(OK_COLOR)[OK]$(NO_COLOR)") \
+	($(CC) $^ -g -lm -lpthread $(DEBUG_MODE) -o $(EXE_NAME) && echo "$(OK_COLOR)[OK]$(NO_COLOR)") \
 		||  (echo "$(ERROR_COLOR)[ERROR]$(NO_COLOR)" && exit 1; )
 	@echo "\n"
 	

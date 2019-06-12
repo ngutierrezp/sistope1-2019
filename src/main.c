@@ -2,15 +2,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <unistd.h>
+#include <semaphore.h>
 #include "../include/colors.h"
 #include "../include/defines.h"
 #include "../include/iofunctions.h"
 #include "../include/properties.h"
 
+pthread_mutex_t MutexAcumulador;
+int number;
+
+// Codigo de prueba.
+void* prueba()
+{
+    pthread_mutex_lock(&MutexAcumulador);
+    printf("Soy la hebra número : %li y imprimo: %i\n", pthread_self() ,number);
+    number += 1;
+    pthread_mutex_unlock(&MutexAcumulador);
+    //sleep(10)
+
+}
 
 int main(int argc, char *argv[])
 {
     int verify;
+    int i;
+    pthread_t* threads = (pthread_t*)malloc(sizeof(pthread_t) * 100);
     int* ancho = (int*)malloc(sizeof(int));
     int* buffer = (int*)malloc(sizeof(int));
     int* discos = (int*)malloc(sizeof(int));
@@ -18,20 +35,35 @@ int main(int argc, char *argv[])
     char* salida = (char*)malloc(sizeof(char)*MAX_CHAR);
     char* entrada = (char*)malloc(sizeof(char)*MAX_CHAR);
 
-    getArgs(argc,argv,discos,ancho,buffer,entrada,salida,bandera);
+    // getArgs(argc,argv,discos,ancho,buffer,entrada,salida,bandera);
 
     #ifdef DEBUG
         printf("entrada: %s, salida: %s, discos: %i, ancho : %i, buffer: %i, bandera : %i \n",entrada,salida,*discos,*ancho,*buffer,*bandera);
     #endif
-
+    /* 
     verify = verifyFile(entrada);
 
     if (verify == FALSE)
     {
         printf(ROJO_T"[ERROR]"RESET_COLOR" El archivo de entrada '"AMARILLO_T"%s"RESET_COLOR"' no existe.\n",entrada);
     }
-    
-    
+    */
+    number = 0;
+    pthread_mutex_init(&MutexAcumulador, NULL);
+
+    while(i < 100)
+    {
+        pthread_create(&threads[i], NULL, prueba , NULL);
+        i++;
+    }
+    i = 0;
+    while(i < 100)
+    {
+        pthread_join(threads[i],NULL);
+        i++;
+    }
+
+
     //Apartado de Liberación de memoria
 
     free(ancho);

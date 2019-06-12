@@ -31,14 +31,14 @@ float potency(float sumR, float sumI)
 
 }
 
-float* partialProperties(int argc, char *argv[])
+float partialProperties(int argc, char *argv[])
 {
     
     // Variable en donde se guardara el resultado de calculo parcial de las propiedades.
-    float* partialCalc[4];
+    float aux = 0;
 
     // Estas serán las variables donde se acumularán los distintos datos.
-    int cont_vis=0;
+    int cont_vis = 0;
     float sumR = 0;
     float sumI = 0;
     float sumW = 0;
@@ -54,12 +54,5 @@ float* partialProperties(int argc, char *argv[])
 
     // SE AGREGAN LAS PROPIEDADES A LA VARIABLE A RETORNAR.
 
-    return partialCalc;
-}
-
-void* prueba(void* number)
-{
-    int number2 = (int) number;
-    printf("Soy la hebra número : %i\n",number2);
-
+    return aux;
 }
