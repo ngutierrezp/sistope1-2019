@@ -50,7 +50,7 @@ PUR_COLOR = \033[0;35m
 SOURCES := $(wildcard $(SRC)*.c)
 OBJECTS := $(patsubst $(SRC)%.c, $(OBJ)%.o, $(SOURCES))
 
-all: clean main hijo
+all: clean main
 	
 	@echo "$(PUR_COLOR)Ejecutable generado!$(NO_COLOR) Nombre: $(OK_COLOR)$(EXE_NAME)$(NO_COLOR) "
 
@@ -81,14 +81,6 @@ $(OBJ)%.o: $(SRC)%.c
 	@echo "Generando archivos object de $@ ...."
 	($(CC) $(DEBUG_MODE) -g -lm -I$(SRC) -c $< -o $@ && echo "$(OK_COLOR)[OK]$(NO_COLOR)") \
 		||  (echo "$(ERROR_COLOR)[ERROR]$(NO_COLOR)" && exit 1; )
-
-hijo: main-child
-	@echo "$(PUR_COLOR)Ejecutable Hijo generado!$(NO_COLOR) Nombre: $(OK_COLOR)$(EXE_NAME_CHILD)$(NO_COLOR) "
-main-child: 
-	@echo "Generando ejecutable Hijo ..."
-	(make -C hijo/ all && echo "$(OK_COLOR)[OK]$(NO_COLOR)") \
-		||  (echo "$(ERROR_COLOR)[ERROR]$(NO_COLOR)" && exit 1; )
-	@echo "\n"
 	
 clean: 
 	
