@@ -2,24 +2,27 @@
 #include <stdlib.h>
 #include "../include/globals.h"
 
-
-properties create_propeerties()
+properties *create_propeerties(int disks)
 {
-    properties newProperties;
+    properties newProperties[disks];
 
-    newProperties.imaginaryAverage = (float*)malloc(sizeof(float));
-    newProperties.noise = (float*)malloc(sizeof(float));
-    newProperties.potency = (float*)malloc(sizeof(float));
-    newProperties.realAvarage = (float*)malloc(sizeof(float));
-
+    for (int j = 0; j < disks; j++)
+    {
+        newProperties[j].imaginaryAverage = (float *)malloc(sizeof(float));
+        newProperties[j].noise = (float *)malloc(sizeof(float));
+        newProperties[j].potency = (float *)malloc(sizeof(float));
+        newProperties[j].realAvarage = (float *)malloc(sizeof(float));
+    }
     return newProperties;
 }
 
-
-void freeProperties(properties _current_properties){
-
-    free(_current_properties.imaginaryAverage);
-    free(_current_properties.noise);
-    free(_current_properties.potency);
-    free(_current_properties.realAvarage);
+void freeProperties(properties *_current_properties, int disks)
+{
+    for (int j = 0; j < disks; j++)
+    {
+        free(_current_properties[j].imaginaryAverage);
+        free(_current_properties[j].noise);
+        free(_current_properties[j].potency);
+        free(_current_properties[j].realAvarage);
+    }
 }
