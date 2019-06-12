@@ -13,6 +13,7 @@ int verifyFile(char* _input_file_)
     FILE* file = fopen(_input_file_,"r");
 
     if( file == NULL){
+         printf(ROJO_T"[ERROR]"RESET_COLOR" El archivo de entrada '"AMARILLO_T"%s"RESET_COLOR"' no existe.\n",_input_file_);
         return FALSE;
     }
     return TRUE;
@@ -111,8 +112,6 @@ void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, int* buf_size, ch
      • -s:  tamaño del buffer de cada monitor
      • -b:  bandera o flag 
      */
-    
-    
     int opt;
 	char *aux3[AUX_CHAR];
 	if(argc < 11){

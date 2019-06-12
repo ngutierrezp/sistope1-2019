@@ -12,4 +12,5 @@
     float realAverage(float sumR, float n);
     float partialProperties(int argc, char *argv[]);
     
+    
 #endif
