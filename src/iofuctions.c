@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include "../include/colors.h"
 #include "../include/defines.h"
+#include "../include/utility.h"
+#include "../include/globals.h"
 
 
 int verifyFile(char* _input_file_)
@@ -14,8 +16,10 @@ int verifyFile(char* _input_file_)
 
     if( file == NULL){
          printf(ROJO_T"[ERROR]"RESET_COLOR" El archivo de entrada '"AMARILLO_T"%s"RESET_COLOR"' no existe.\n",_input_file_);
+        fclose(file);
         return FALSE;
     }
+    fclose(file);
     return TRUE;
     
 }
@@ -34,8 +38,6 @@ float** readFile(char *file,int lines)
         listVisibility[j] = (float*)malloc(sizeof(float)*5);
     }
    
-    
-
     // se abre el archivo a leer 
     FILE *_file_pointer = fopen(file, "r");
 
@@ -50,7 +52,7 @@ float** readFile(char *file,int lines)
         //se limpian los espacios en caso de que hayan.
         while (strchr(buffer, ' ') != NULL)
         {
-            //removeChar(buffer, ' ');
+            removeChar(buffer, ' ');
         }
         
         ptr = strtok(buffer,",");
@@ -227,7 +229,7 @@ void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, int* buf_size, ch
 	}
 }
 
-void writeFile(char* fileName, float** data, int disk)
+void writeFile(char* fileName, int disk)
 {
 
     FILE* _file = fopen(fileName ,"w");
@@ -235,10 +237,10 @@ void writeFile(char* fileName, float** data, int disk)
     for (int i = 0; i < disk; i++)
     {
         fprintf(_file,"Disco : %i\n",i+1);
-        fprintf(_file,"Media Real: %f\n",data[i][0]);
-        fprintf(_file,"Media imaginaria: %f\n",data[i][1]);
-        fprintf(_file,"Potencia: %f\n",data[i][2]);
-        fprintf(_file,"Ruido total: %f\n",data[i][3]);
+        fprintf(_file,"Media Real: %f\n",global_properties[i].realAvarage);
+        fprintf(_file,"Media imaginaria: %f\n",global_properties[i].imaginaryAverage);
+        fprintf(_file,"Potencia: %f\n",global_properties[i].potency);
+        fprintf(_file,"Ruido total: %f\n",global_properties[i].noise);
     }
     fclose(_file);
 }

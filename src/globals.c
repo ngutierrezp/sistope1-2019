@@ -4,25 +4,23 @@
 
 properties *create_propeerties(int disks)
 {
-    properties newProperties[disks];
+    properties *newProperties = (properties *)malloc(sizeof(properties) * disks);
 
     for (int j = 0; j < disks; j++)
     {
-        newProperties[j].imaginaryAverage = (float *)malloc(sizeof(float));
-        newProperties[j].noise = (float *)malloc(sizeof(float));
-        newProperties[j].potency = (float *)malloc(sizeof(float));
-        newProperties[j].realAvarage = (float *)malloc(sizeof(float));
+        newProperties[j].imaginaryAverage = 0;
+        newProperties[j].noise = 0;
+        newProperties[j].potency = 0;
+        newProperties[j].realAvarage = 0;
+        newProperties[j].imaginaryAverageP = 0;
+        newProperties[j].numberDisk = j;
+        newProperties[j].realAvarageP = 0;
+        newProperties[j].size = 0;
     }
     return newProperties;
 }
 
 void freeProperties(properties *_current_properties, int disks)
 {
-    for (int j = 0; j < disks; j++)
-    {
-        free(_current_properties[j].imaginaryAverage);
-        free(_current_properties[j].noise);
-        free(_current_properties[j].potency);
-        free(_current_properties[j].realAvarage);
-    }
+    free(_current_properties);
 }

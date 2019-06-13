@@ -9,5 +9,8 @@
     */
     void getArgs(int argc, char *argv[], int *n_disk, int* n_whgt, int* buf_size, char* in_file, char* out_file, int *flag);
     int verifyFile(char* _input_file_);
+    float** readFile(char *file,int lines);
+    int countLines(char *file);
+    void writeFile(char* fileName, int disk);
     
 #endif

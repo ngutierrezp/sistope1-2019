@@ -20,7 +20,7 @@
 
 # --- opciones de ejecución ---
 CLEAN_COMMAND := rm
-COMPILE_COMMAND := gcc
+CC := gcc
 EXE_NAME := lab2.out
 DEBUG_MODE :=
 EXE_NAME_DEBUG := lab2_debug.out
@@ -57,7 +57,7 @@ all: clean main
 
 main: $(OBJECTS)
 	@echo "Generando ejecutable ..."
-	($(CC) $^ -g -lm -lpthread $(DEBUG_MODE) -o $(EXE_NAME) && echo "$(OK_COLOR)[OK]$(NO_COLOR)") \
+	($(CC) $^ -g -lm -L$(INCLUDE_DIR) -lpthread $(DEBUG_MODE) -o $(EXE_NAME) && echo "$(OK_COLOR)[OK]$(NO_COLOR)") \
 		||  (echo "$(ERROR_COLOR)[ERROR]$(NO_COLOR)" && exit 1; )
 	@echo "\n"
 	
@@ -79,7 +79,7 @@ main-debug: $(OBJECTS)
 
 $(OBJ)%.o: $(SRC)%.c
 	@echo "Generando archivos object de $@ ...."
-	($(CC) $(DEBUG_MODE) -g -lm -I$(SRC) -c $< -o $@ && echo "$(OK_COLOR)[OK]$(NO_COLOR)") \
+	($(CC) $(DEBUG_MODE) -g -lm -lpthread -I$(SRC) -c $< -o $@ && echo "$(OK_COLOR)[OK]$(NO_COLOR)") \
 		||  (echo "$(ERROR_COLOR)[ERROR]$(NO_COLOR)" && exit 1; )
 	
 clean: 
