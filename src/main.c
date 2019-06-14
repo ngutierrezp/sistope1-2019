@@ -12,15 +12,6 @@
 #include "../include/properties.h"
 #include "../include/utility.h"
 
-// Codigo de prueba.
-void *prueba()
-{
-    pthread_mutex_lock(&MutexAcumulador);
-    printf("Soy la hebra número : %li y imprimo: %i\n", pthread_self(), number);
-    number += 1;
-    pthread_mutex_unlock(&MutexAcumulador);
-}
-
 int main(int argc, char *argv[])
 {
     int i = 0;
@@ -76,7 +67,7 @@ int main(int argc, char *argv[])
     //lista de discos
     for (int k = 0; k < (*discos); k++)
     {
-        listNumberDisks[i] = i;
+        listNumberDisks[k] = k;
         monitor[k] = (queue *)malloc(sizeof(queue));
         disks[k] = count_disk;
         count_disk = count_disk + *ancho;
@@ -84,6 +75,8 @@ int main(int argc, char *argv[])
 
     int lines = countLines(entrada);
     float **dataRead = readFile(entrada, lines);
+
+    //cola de entrada al monitor
     sendData(dataRead, lines, disks, monitor, *discos);
     sendEND(monitor, *discos);
 
@@ -95,16 +88,10 @@ int main(int argc, char *argv[])
         ###############################################################
     */
 
-    /*
-
-        Sentencia de asignación de discos por distancia
-
-    */
     for (int i = 0; i < *discos; i++)
     {
         pthread_create(&threads[i], NULL, monitorData, &listNumberDisks[i]);
     }
-
     i = 0;
     while (i < *discos)
     {
