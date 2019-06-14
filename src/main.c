@@ -76,9 +76,8 @@ int main(int argc, char *argv[])
     int lines = countLines(entrada);
     float **dataRead = readFile(entrada, lines);
 
-    //cola de entrada al monitor
+    //entrada al monitor
     sendData(dataRead, lines, disks, monitor, *discos);
-    sendEND(monitor, *discos);
 
     /*
         ###############################################################
@@ -90,8 +89,14 @@ int main(int argc, char *argv[])
 
     for (int i = 0; i < *discos; i++)
     {
+        //llamado a crear la hebra
         pthread_create(&threads[i], NULL, monitorData, &listNumberDisks[i]);
     }
+
+    // se envia el FIN a los monitores
+    sendEND(monitor, *discos);
+
+    // se esperand a las hebras que terminen
     i = 0;
     while (i < *discos)
     {
