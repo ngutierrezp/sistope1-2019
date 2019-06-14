@@ -30,29 +30,3 @@ float potency(float sumR, float sumI)
     return sqrt(sum);
 
 }
-
-float partialProperties(int argc, char *argv[])
-{
-    
-    // Variable en donde se guardara el resultado de calculo parcial de las propiedades.
-    float aux = 0;
-
-    // Estas serán las variables donde se acumularán los distintos datos.
-    int cont_vis = 0;
-    float sumR = 0;
-    float sumI = 0;
-    float sumW = 0;
-    float n = 0;        
-
-    // Estas serán las variables donde se guardarán el resultado de cada propiedad.
-    // Se inicializan con argv ya que calcularán parcialmente las propiedades.
-    float realA = atof(argv[0]);
-    float imaginaryA = atof(argv[1]);
-    float pot = atof(argv[2]);
-
-    // CALCULO DE LAS PROPIEDADES.
-
-    // SE AGREGAN LAS PROPIEDADES A LA VARIABLE A RETORNAR.
-
-    return aux;
-}

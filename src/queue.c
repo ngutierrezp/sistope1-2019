@@ -14,7 +14,7 @@
 void EnQueue(queue *current, char *newData)
 {
     NODE *new = (NODE *)malloc(sizeof(NODE));
-    new->data = (char *)malloc(sizeof(char) * MAX_CHAR);
+    new->data = (char *)malloc(sizeof(char) * MAX_CHAR * 10);
     strcpy(new->data, newData);
     new->next = NULL;
     if (current->size == 0)

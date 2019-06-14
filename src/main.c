@@ -12,15 +12,6 @@
 #include "../include/properties.h"
 #include "../include/utility.h"
 
-// Codigo de prueba.
-void *prueba()
-{
-    pthread_mutex_lock(&MutexAcumulador);
-    printf("Soy la hebra número : %li y imprimo: %i\n", pthread_self(), number);
-    number += 1;
-    pthread_mutex_unlock(&MutexAcumulador);
-}
-
 int main(int argc, char *argv[])
 {
     int i = 0;
