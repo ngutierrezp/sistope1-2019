@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     if (*bandera == ACTIVE)
     {
         flag = ACTIVE;
-        printf(ROJO_T"[FLAG ACTIVATED]"RESET_COLOR"\n");
+        printf(ROJO_T "[FLAG ACTIVATED]" RESET_COLOR "\n");
     }
 
     // definicion de mutex hilos y monitores que seran ocupados por los discos
@@ -67,11 +67,6 @@ int main(int argc, char *argv[])
 
     int *listNumberDisks = (int *)malloc(sizeof(int) * (*discos));
 
-    for (int i = 0; i < (*discos); i++)
-    {
-        listNumberDisks[i] = i;
-    }
-
     buffer_size = *buffer;
 
     int *disks = (int *)malloc(sizeof(int) * (*discos));
@@ -81,17 +76,16 @@ int main(int argc, char *argv[])
     //lista de discos
     for (int k = 0; k < (*discos); k++)
     {
+        listNumberDisks[i] = i;
+        monitor[k] = (queue *)malloc(sizeof(queue));
         disks[k] = count_disk;
         count_disk = count_disk + *ancho;
     }
 
-    i = 0;
-    while (i < *discos)
-    {
-        monitor[i] = (queue *)malloc(sizeof(queue));
-        pthread_create(&threads[i], NULL, monitorData, &listNumberDisks[i]);
-        i++;
-    }
+    int lines = countLines(entrada);
+    float **dataRead = readFile(entrada, lines);
+    sendData(dataRead, lines, disks, monitor, *discos);
+    sendEND(monitor, *discos);
 
     /*
         ###############################################################
@@ -106,11 +100,10 @@ int main(int argc, char *argv[])
         Sentencia de asignación de discos por distancia
 
     */
-    int lines = countLines(entrada);
-    float **dataRead = readFile(entrada, lines);
-
-    sendData(dataRead, lines, disks, monitor, *discos);
-    sendEND(monitor, *discos);
+    for (int i = 0; i < *discos; i++)
+    {
+        pthread_create(&threads[i], NULL, monitorData, &listNumberDisks[i]);
+    }
 
     i = 0;
     while (i < *discos)
@@ -134,7 +127,7 @@ int main(int argc, char *argv[])
     freeDataRead(dataRead, lines);
 
     //Fin del programa
-    printf(VERDE_T"Programa finalizado!!\n"RESET_COLOR);
+    printf(VERDE_T "Programa finalizado!!\n" RESET_COLOR);
 
     return 0;
 }
